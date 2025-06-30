@@ -167,6 +167,7 @@ Esse cálculo demonstra como o Redis, ao operar como um cache ao lado do servido
 3. **Configure o Redis com Docker**:
    - O projeto inclui um arquivo `docker-compose.yml` para configurar o Redis. Inicie-o com:
      ```bash
+     cd..
      docker-compose up -d
      ```
    - O arquivo `docker-compose.yml` configura o Redis com a imagem `bitnami/redis:latest`, usando a senha `@a123456` e a porta `6379`. Ele também define um volume persistente e um healthcheck.
@@ -233,12 +234,13 @@ Esse cálculo demonstra como o Redis, ao operar como um cache ao lado do servido
 ## 📁 Estrutura do Projeto
 
 ```plaintext
-redis/
-├── src/
-│   └── index.ts
-├── client.http
-├── package.json
-└── README.md
+└── redis
+    └── basico
+        ├── README.md
+        ├── client.http
+        ├── package-lock.json
+        ├── package.json
+        └── server.js
 ```
 
 ---
