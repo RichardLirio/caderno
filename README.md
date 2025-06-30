@@ -10,6 +10,7 @@ A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com
 
 - [Node.js](#nodejs)
   - [Iniciando um projeto Node.js com Express e TypeScript](./nodejs/express-typescript-boilerplate)
+  - [Iniciando um projeto Node.js com Fastify e TypeScript](./nodejs/fastify-typescript-boilerplate)
 
 ---
 
@@ -19,5 +20,11 @@ A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com
 
 > Caminho: [`/nodejs/express-typescript-boilerplate`](./nodejs/express-typescript-boilerplate)
 
+
 Este exemplo mostra como criar um projeto Node.js moderno utilizando **Express** e **TypeScript**, ideal para iniciar uma API com boa estrutura desde o início.
 
+### ⚡ Iniciando um projeto Node.js com Fastify e TypeScript
+
+> Caminho: [`/nodejs/fastify-typescript-boilerplate`](./nodejs/fastify-typescript-boilerplate)
+
+Esse exemplo mostra como criar uma API utilizando **Fastify** com **TypeScript**, com configuração mínima e moderna.
