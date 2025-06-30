@@ -16,7 +16,7 @@ fastify: framework web ultrarrápido, alternativo ao Express.
 
 📌 Dependências de desenvolvimento
 ```bash
-npm install -D typescript ts-node-dev @types/node
+npm install -D typescript tsx @types/node
 ```
 Explicação:
 
@@ -77,7 +77,7 @@ app.listen({ port: 3000 }, () => {
 🧪 6. Adicione os scripts no package.json
 ```json
 "scripts": {
-  "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+  "dev": "tsx watch src/server.ts",
   "build": "tsc",
   "start": "node dist/server.js"
 }
