@@ -45,7 +45,7 @@ A seguir, apresentamos uma rota `/checkout` que implementa idempotência para si
 Você pode testar a rota usando o seguinte arquivo `client.http`:
 
 ```http
-POST http://localhost:3333/checkout
+POST http://localhost:3000/checkout
 Content-Type: application/json
 
 {
