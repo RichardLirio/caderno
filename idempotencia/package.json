@@ -1,0 +1,24 @@
+{
+  "name": "idempotencia",
+  "version": "1.0.0",
+  "description": "Este repositório demonstra o **conceito de idempotência** na prática utilizando **Node.js**, **Fastify** e **Redis**. Aqui você encontrará uma explicação teórica clara, acompanhada de um exemplo funcional para simular o reprocessamento seguro de requisições (como pagamentos, criação de pedidos, etc).",
+  "main": "index.js",
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^5.4.0",
+    "redis": "^5.5.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

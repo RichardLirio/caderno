@@ -1,0 +1,8 @@
+POST http://localhost:3000/checkout
+Content-Type: application/json
+
+{
+  "amount": 100,
+  "description": "Pagamento do plano premium",
+  "paymentMethod": "credit_card"
+}
