@@ -235,18 +235,22 @@ export async function checkoutRoute(app: FastifyInstance) {
 ## 📁 Estrutura do Projeto
 
 ```plaintext
-idempotencia/
-├── src/
-│   ├── server.ts
-│   └── routes/
-│       └── checkout.ts
-├── redis.ts
-├── client.http
-├── docker-compose.yml
-├── package.json
-├── tsconfig.json
-└── README.md
+└── idempotencia
+    ├── README.md
+    ├── client.http
+    ├── docker-compose.yml
+    ├── package-lock.json
+    ├── package.json
+    ├── src
+        ├── app.ts
+        ├── lib
+        │   └── redis.ts
+        ├── routes
+        │   └── checkout.ts
+        └── server.ts
+    └── tsconfig.json
 ```
+
 
 ---
 
