@@ -1,0 +1,10 @@
+# @name Busca_recurso
+GET http://localhost:3000
+Content-Type: application/json
+
+###
+
+
+# @name Salva_e_limpa_cache
+GET http://localhost:3000/saved
+Content-Type: application/json
