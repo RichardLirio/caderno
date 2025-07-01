@@ -14,6 +14,7 @@ A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com
   - [Idempotência em APIs HTTP com Node.js e Redis](./idempotencia)
   - [Cache com Redis em Node.js](./redis/basico)
   - [Cache com Redis em Node.js - Avançado (Stale-While-Revalidate)](./redis/avancado)
+  - [Streams em Node.js - Fundamentos](./nodejs/fundamentos/streams)
 ---
 
 ## 🟢 Node.js
@@ -47,3 +48,9 @@ Este exemplo básico explora o uso de **Redis** como um sistema de cache em mem�
 > Caminho: [`/redis/avancado`](./redis/avancado)
 
 Este exemplo avançado explora o padrão **stale-while-revalidate** para caching com **Redis** em uma aplicação Node.js com **Express**. A implementação utiliza chaves adicionais no Redis para gerenciar o estado do cache (válido, desatualizado ou em atualização), evitando sobrecarga na fonte de dados e garantindo respostas rápidas mesmo com dados stale. Inclui testes práticos com um arquivo `client.http` para observar a eficiência do padrão.
+
+### 🌊 Streams em Node.js - Fundamentos
+
+> Caminho: [`/nodejs/fundamentos/streams`](./nodejs/fundamentos/streams)
+
+Este exemplo introduz os fundamentos de **Streams** em Node.js, abordando **Readable Streams**, **Transform Streams**, e **Writable Streams**. Demonstra como processar grandes volumes de dados (como arquivos de 2 GB) em pedaços (chunks), evitando travamentos. Inclui exemplos práticos como geração de arquivos CSV e uso de pipelines, além de analogias para facilitar o entendimento do conceito.
