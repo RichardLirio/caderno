@@ -8,18 +8,18 @@ A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com
 
 ## 📚 Índice de Tópicos
 
-- [Node.js](#nodejs)
+- [Node.js](./nodejs)
   - [Iniciando um projeto Node.js com Express e TypeScript](./nodejs/express-typescript-boilerplate)
   - [Iniciando um projeto Node.js com Fastify e TypeScript](./nodejs/fastify-typescript-boilerplate)
   - [Idempotência em APIs HTTP com Node.js e Redis](./idempotencia)
   - [Cache com Redis em Node.js - Básico](./redis/basico)
   - [Cache com Redis em Node.js - Avançado (Stale-While-Revalidate)](./redis/avancado)
   - [Streams em Node.js - Fundamentos](./nodejs/fundamentos/streams)
-- [Conceitos Avançados](#conceitos-avancados)
-  - [SOLID em JavaScript](./solid)
-  - [DDD (Domain-Driven Design) em JavaScript](./ddd)
-  - [TDD (Test-Driven Development) em JavaScript](./tdd)
-  - [Clean Architecture em JavaScript](./clean-architecture)
+- [Conceitos Avançados](./conceitos)
+  - [SOLID em JavaScript](./conceitos/SOLID)
+  - [DDD (Domain-Driven Design) em JavaScript](./conceitos/DDD(Domain%20Driven%20Design))
+  - [TDD (Test-Driven Development) em JavaScript](./conceitos/TDD(Test%20Driven%20Development))
+  - [Clean Architecture em JavaScript](./conceitos/CleanArchitecture)
 
 ---
 
