@@ -15,6 +15,8 @@ A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com
   - [Cache com Redis em Node.js - Básico](./redis/basico)
   - [Cache com Redis em Node.js - Avançado (Stale-While-Revalidate)](./redis/avancado)
   - [Streams em Node.js - Fundamentos](./nodejs/fundamentos/streams)
+- [Algoritmos](./algoritmos)
+  - [Busca Binária (Binary Search)](./algoritmos/busca_binaria)
 - [Conceitos Avançados](./conceitos)
   - [SOLID em JavaScript](./conceitos/SOLID)
   - [DDD (Domain-Driven Design) em JavaScript](./conceitos/DDD(Domain%20Driven%20Design))
@@ -60,6 +62,16 @@ Este exemplo avançado explora o padrão **stale-while-revalidate** para caching
 > Caminho: [`/nodejs/fundamentos/streams`](./nodejs/fundamentos/streams)
 
 Este exemplo introduz os fundamentos de **Streams** em Node.js, abordando **Readable Streams**, **Transform Streams**, e **Writable Streams**. Demonstra como processar grandes volumes de dados (como arquivos de 2 GB) em pedaços (chunks), evitando travamentos. Inclui exemplos práticos como geração de arquivos CSV e uso de pipelines, além de analogias para facilitar o entendimento do conceito.
+
+---
+
+## 🔢 Algoritmos
+
+### 🎯 Busca Binária (Binary Search)
+
+> Caminho: [`/algoritmos/busca_binaria`](./algoritmos/busca_binaria)
+
+Este exemplo implementa e explora o algoritmo de **busca binária** em JavaScript/TypeScript. Demonstra como realizar buscas eficientes (O(log n)) em listas ordenadas, incluindo implementações para números e strings. Contém análises importantes sobre as peculiaridades do método `sort()` do JavaScript, como os problemas com ordenação de números e strings, e as soluções corretas usando funções de comparação e `localeCompare()`. Inclui casos de uso práticos, considerações de performance e aprendizados sobre quando usar ou não este algoritmo.
 
 ---
 
