@@ -5,7 +5,12 @@ function pesquisa_binaria(lista: number[], item: number) {
   let meio = 0; //ponteiro alto
   let chute = 0; //chute para tentar encontrar o item
 
-  let listaOrdenada = lista.sort(); // ordena a lista antes de realizar a busca
+  let listaOrdenada = lista.sort((a: number, b: number) => {
+    return a - b;
+  }); // ordena a lista antes de realizar a busca, ordenação feita de maneira correta utilizando o metodo sort para uma lista de numeros
+  //o sort por padrão verifica doi numeros e retorna um numero positivo, negativo ou 0, e leva esse numero retornado como paremetro para ordenação na lista.
+  // em caso de strings o numero usado para comparação é o valor utf-16 do caracter
+  // Com isso devemos tomar cuidado ao ordenar diretamente pelo metodo sort
 
   while (baixo <= alto) {
     meio = Math.round((baixo + alto) / 2); //metade da lista
@@ -30,7 +35,10 @@ function pesquisa_binaria_palavras(lista: string[], palavra: string) {
   let meio;
   let chute;
 
-  let listaOrdenada = lista.sort();
+  let listaOrdenada = lista.sort((a: string, b: string) => {
+    return a.localeCompare(b);
+  }); // metodo sort utilizando strings reques atenção pois ele leva em consideração o valor do utf-16
+  console.log("🚀 ~ pesquisa_binaria_palavras ~ listaOrdenada:", listaOrdenada); // Demonstração da lista ordenada
 
   while (baixo <= alto) {
     meio = Math.round((baixo + alto) / 2);
@@ -39,7 +47,7 @@ function pesquisa_binaria_palavras(lista: string[], palavra: string) {
     if (chute === palavra) {
       return meio;
     }
-    if (chute > palavra) {
+    if (chute.localeCompare(palavra) === 1) {
       alto = meio - 1;
     } else {
       baixo = meio + 1;
@@ -50,7 +58,7 @@ function pesquisa_binaria_palavras(lista: string[], palavra: string) {
 
 console.log(
   pesquisa_binaria_palavras(
-    ["Richard", "Angelo", "Carmem", "Reginaldo", "Ezila", "Thais"],
-    "Angelo"
+    ["abner", "angelo", "Carmem", "Reginaldo", "Ezila", "Thais"],
+    "Ezila"
   )
 );
