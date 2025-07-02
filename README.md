@@ -1,5 +1,15 @@
 # 📘 Caderno de Estudos
 
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES2022+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Redis](https://img.shields.io/badge/Redis-7.0+-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+
+![License](https://img.shields.io/github/license/RichardLirio/caderno?style=flat-square)
+![Last Commit](https://img.shields.io/github/last-commit/RichardLirio/caderno?style=flat-square)
+![Repo Size](https://img.shields.io/github/repo-size/RichardLirio/caderno?style=flat-square)
+![Stars](https://img.shields.io/github/stars/RichardLirio/caderno?style=flat-square)
+
 Bem-vindo ao **Caderno**, um repositório pessoal de anotações, conceitos e exemplos práticos sobre tecnologias que estou estudando.
 
 A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com conteúdos simples, diretos e sempre acompanhados de exemplos funcionais.
@@ -100,3 +110,33 @@ Este exemplo aborda o **Test-Driven Development**, seguindo o ciclo Red-Green-Re
 > Caminho: [`/conceitos/CleanArchitecture`](./conceitos/CleanArchitecture)
 
 Este exemplo aprofunda a **Clean Architecture**, organizando o código em camadas concêntricas (Entidades, Casos de Uso, Interfaces e Adaptadores). Demonstra como separar as preocupações do software, com regras de dependência (Entidades → Casos de Uso → Interfaces → Adaptadores) e exemplos práticos, incluindo um servidor HTTP.
+
+---
+
+## 🤝 Contribuindo
+
+Este é um repositório pessoal de estudos, mas sugestões e correções são sempre bem-vindas! 
+
+Se você encontrou algum erro ou tem uma sugestão de melhoria:
+1. Abra uma **issue** descrevendo o problema ou sugestão
+2. Faça um **fork** do repositório
+3. Crie uma **branch** para sua contribuição
+4. Envie um **pull request**
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+## 📧 Contato
+
+**Richard Lirio**
+- GitHub: [@RichardLirio](https://github.com/RichardLirio)
+- LinkedIn: [Richard Lirio](https://www.linkedin.com/in/richard-silva-lirio-b97484250/)
+
+---
+
+*💡 "O conhecimento é a única coisa que cresce quando é compartilhado"*
