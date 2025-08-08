@@ -3,8 +3,12 @@
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES2022+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-7.0+-DC382D?style=for-the-badge&logo=redis&logoColor=white)
 
+![Design Patterns](https://img.shields.io/badge/Design%20Patterns-Learning-blue?style=flat-square)
+![SOLID Principles](https://img.shields.io/badge/SOLID-Principles-green?style=flat-square)
+![Clean Code](https://img.shields.io/badge/Clean%20Code-Best%20Practices-orange?style=flat-square)
 ![License](https://img.shields.io/github/license/RichardLirio/caderno?style=flat-square)
 ![Last Commit](https://img.shields.io/github/last-commit/RichardLirio/caderno?style=flat-square)
 ![Repo Size](https://img.shields.io/github/repo-size/RichardLirio/caderno?style=flat-square)
@@ -25,6 +29,8 @@ A ideia aqui é centralizar o conhecimento de forma organizada e acessível, com
   - [Cache com Redis em Node.js - Básico](./redis/basico)
   - [Cache com Redis em Node.js - Avançado (Stale-While-Revalidate)](./redis/avancado)
   - [Streams em Node.js - Fundamentos](./nodejs/fundamentos/streams)
+- [Design Patterns](./design-patterns)
+  - [Strategy Pattern - Sistema de Cálculo de Impostos](./design-patterns/strategy-pattern)
 - [Algoritmos](./algoritmos)
   - [Busca Binária (Binary Search)](./algoritmos/busca_binaria)
 - [Conceitos Avançados](./conceitos)
@@ -72,6 +78,16 @@ Este exemplo avançado explora o padrão **stale-while-revalidate** para caching
 > Caminho: [`/nodejs/fundamentos/streams`](./nodejs/fundamentos/streams)
 
 Este exemplo introduz os fundamentos de **Streams** em Node.js, abordando **Readable Streams**, **Transform Streams**, e **Writable Streams**. Demonstra como processar grandes volumes de dados (como arquivos de 2 GB) em pedaços (chunks), evitando travamentos. Inclui exemplos práticos como geração de arquivos CSV e uso de pipelines, além de analogias para facilitar o entendimento do conceito.
+
+---
+
+## 🎨 Design Patterns
+
+### 📋 Strategy Pattern - Sistema de Cálculo de Impostos
+
+> Caminho: [`/design-patterns/strategy-pattern`](./design-patterns/comportamental/strategy)
+
+Este exemplo demonstra a aplicação do **Strategy Pattern** em uma API financeira para cálculo de impostos. Aborda a refatoração de um código que violava princípios SOLID, transformando comparações com strings em classes bem definidas. Inclui análise detalhada dos problemas (Single Responsibility e Open/Closed Principle), implementação da solução com TypeScript e NestJS, e demonstração dos benefícios alcançados. Serve como base para estudos sobre Factory Pattern, que resolverá a lógica de instanciação no controller.
 
 ---
 
