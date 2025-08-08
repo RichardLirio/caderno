@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:3000
+
+
+POST {{baseUrl}}/calculate
+Content-Type: application/json
+
+{
+    "taxtype":"ISS",
+    "amount": 10000
+}
+
+###
