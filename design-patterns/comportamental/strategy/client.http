@@ -5,7 +5,7 @@ POST {{baseUrl}}/calculate
 Content-Type: application/json
 
 {
-    "taxtype":"ISS",
+    "taxType":"ISS",
     "amount": 10000
 }
 
