@@ -1,17 +1,15 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
+import { TaxTypeInterface } from "./contracts/TaxtypeInterface";
 
 @Injectable()
 export class TaxService {
-  calculate(taxType: string, amount: number): number {
-    if (taxType === "ICMS") {
-      return (amount * 4) / 100;
-    }
-    if (taxType === "ISS") {
-      return (amount * 11) / 100;
-    }
-    if (taxType === "IPI") {
-      return (amount * 15) / 100;
-    }
-    throw new BadRequestException("invalid tax type.");
+  private taxType: TaxTypeInterface;
+
+  calculate(amount: number): number {
+    return this.taxType.calculate(amount);
+  }
+
+  setTaxType(taxtType: TaxTypeInterface) {
+    this.taxType = taxtType;
   }
 }
