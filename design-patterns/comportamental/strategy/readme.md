@@ -1,4 +1,4 @@
-# 📚 Design Patterns - Repositório de Estudos
+# 📚 Design Patterns - Strategy Patterns
 
 <div align="center">
   
