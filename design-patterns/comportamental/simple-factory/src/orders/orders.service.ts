@@ -1,35 +1,19 @@
 import { Injectable } from "@nestjs/common";
+import { OrdersFactory } from "./factory/orders.factory";
 
 @Injectable()
 export class OrdersService {
-  // Legacy: messy, hardcoded, no polymorphism, bad maintainability
-  calculateOrder(type: string, amount: number) {
-    let total = 0;
+  constructor(private readonly ordersFactory: OrdersFactory) {}
 
-    if (type === "book") {
-      // Book price calculation
-      total = amount * 10;
-      // apply tax
-      total += total * 0.1;
-    } else if (type === "electronic") {
-      // Electronics price calculation
-      total = amount * 100;
-      // apply warranty fee
-      total += 50;
-    } else if (type === "food") {
-      // Food price calculation
-      total = amount * 5;
-      // apply service charge
-      total += total * 0.05;
-    } else {
-      throw new Error(`Unknown order type: ${type}`);
-    }
+  calculateOrder(type: string, amount: number) {
+    const calculator = this.ordersFactory.create(type);
+    const total = calculator.calculate(amount);
 
     return {
       type,
       amount,
       total,
-      message: "Legacy calculation completed",
+      message: "Calculation completed",
     };
   }
 }

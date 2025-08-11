@@ -7,6 +7,6 @@ export class OrdersController {
 
   @Get("calculate")
   calculateTotal(@Query("type") type: string, @Query("amount") amount: string) {
-    return this.ordersService.calculateOrder(type, parseInt(amount));
+    return this.ordersService.calculateOrder(type, parseInt(amount, 10));
   }
 }

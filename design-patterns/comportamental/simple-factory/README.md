@@ -1,98 +1,232 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📚 Design Patterns - Simple Factory Pattern
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<div align="center">
+  
+  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+  ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+  ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+  
+  ![Design Patterns](https://img.shields.io/badge/Design%20Patterns-Learning-blue?style=for-the-badge)
+  ![SOLID Principles](https://img.shields.io/badge/SOLID-Principles-green?style=for-the-badge)
+  ![Clean Code](https://img.shields.io/badge/Clean%20Code-Best%20Practices-orange?style=for-the-badge)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+</div>
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🎯 **Sobre o Projeto**
 
-## Project setup
+Este repositório demonstra a aplicação do **Simple Factory Pattern** no contexto de uma API NestJS.  
+O objetivo é refatorar um código legado que possuía **condicionais encadeadas**, violava princípios do SOLID e dificultava a manutenção.
 
-```bash
-$ pnpm install
+---
+
+## 📋 **Cenário de Estudo**
+
+### **Contexto da Aplicação**
+
+A API possui um serviço de pedidos responsável por calcular o valor total de acordo com o tipo de produto:
+- 📚 **Book** (livros)
+- 💻 **Electronic** (eletrônicos)  
+- 🍔 **Food** (alimentos)
+
+O endpoint recebe o tipo de pedido e a quantidade e retorna o valor total calculado.
+
+**Exemplo de requisição:**
+```http
+GET /orders/calculate?type=book&amount=3
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ pnpm run start
+## 🚨 **Problemas Identificados no Código Original**
 
-# watch mode
-$ pnpm run start:dev
+### **❌ Código Problemático**
+```typescript
+@Injectable()
+export class OrdersService {
+  calculateOrder(type: string, amount: number) {
+    let total = 0;
 
-# production mode
-$ pnpm run start:prod
+    if (type === 'book') {
+      total = amount * 10;
+      total += total * 0.1;
+    } else if (type === 'electronic') {
+      total = amount * 100;
+      total += 50;
+    } else if (type === 'food') {
+      total = amount * 5;
+      total += total * 0.05;
+    } else {
+      throw new Error(`Unknown order type: ${type}`);
+    }
+
+    return { type, amount, total };
+  }
+}
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ pnpm run test
+### **🔍 Problemas Encontrados**
 
-# e2e tests
-$ pnpm run test:e2e
+| Problema | Descrição | Princípio Violado |
+|----------|-----------|-------------------|
+| **Múltiplas Responsabilidades** | Service responsável por regras de cálculo e decisão de tipo | SRP |
+| **Código Não Extensível** | Adicionar novo tipo exige alterar o mesmo método | OCP |
+| **Baixa Testabilidade** | Cálculos acoplados ao service dificultam testes isolados | Clean Code |
+| **Alto Acoplamento** | `OrdersService` conhece detalhes de todas as regras | DIP |
 
-# test coverage
-$ pnpm run test:cov
+---
+
+## ✅ **Solução Implementada: Simple Factory Pattern**
+
+### **🎯 Estratégia de Refatoração**
+
+> **Regra de Ouro:** *Quando várias condições criam objetos diferentes baseados em um parâmetro, considere uma Factory para centralizar a criação.*
+
+---
+
+### **📐 Arquitetura da Solução**
+
+#### **1. Interface do Contrato**
+```typescript
+export interface CalculateOrderTypeInterface {
+  calculate(amount: number): number;
+}
 ```
 
-## Deployment
+#### **2. Implementações Específicas**
+```typescript
+export class BookOrderCalculator implements CalculateOrderTypeInterface {
+  calculate(amount: number): number {
+    let total = amount * 10;
+    total += total * 0.1;
+    return total;
+  }
+}
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+export class ElectronicOrderCalculator implements CalculateOrderTypeInterface {
+  calculate(amount: number): number {
+    let total = amount * 100;
+    total += 50;
+    return total;
+  }
+}
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+export class FoodOrderCalculator implements CalculateOrderTypeInterface {
+  calculate(amount: number): number {
+    let total = amount * 5;
+    total += total * 0.05;
+    return total;
+  }
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### **3. Factory para Criação**
+```typescript
+@Injectable()
+export class OrdersFactory {
+  constructor(
+    private readonly bookOrderCalculator: BookOrderCalculator,
+    private readonly electronicOrderCalculator: ElectronicOrderCalculator,
+    private readonly foodOrderCalculator: FoodOrderCalculator,
+  ) {}
 
-## Resources
+  create(type: string): CalculateOrderTypeInterface {
+    switch (type) {
+      case 'book': return this.bookOrderCalculator;
+      case 'electronic': return this.electronicOrderCalculator;
+      case 'food': return this.foodOrderCalculator;
+      default:
+        throw new BadRequestException(`Unknown order type: ${type}`);
+    }
+  }
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+#### **4. Service Refatorado**
+```typescript
+@Injectable()
+export class OrdersService {
+  constructor(private readonly ordersFactory: OrdersFactory) {}
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+  calculateOrder(type: string, amount: number) {
+    const calculator = this.ordersFactory.create(type);
+    const total = calculator.calculate(amount);
 
-## Support
+    return { type, amount, total, message: "Calculation completed" };
+  }
+}
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### **5. Controller**
+```typescript
+@Controller('orders')
+export class OrdersController {
+  constructor(private readonly ordersService: OrdersService) {}
 
-## Stay in touch
+  @Get('calculate')
+  calculateTotal(
+    @Query('type') type: string,
+    @Query('amount') amount: string,
+  ) {
+    return this.ordersService.calculateOrder(type, parseInt(amount, 10));
+  }
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## 🏆 **Benefícios Alcançados**
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### **✅ Princípios SOLID Aplicados**
+
+| Princípio | Antes | Depois |
+|-----------|-------|--------|
+| **Single Responsibility** | ❌ Service fazia tudo | ✅ Service delega para calculadores |
+| **Open/Closed** | ❌ Necessário editar método para novos tipos | ✅ Novos tipos apenas adicionando nova classe |
+| **Dependency Inversion** | ❌ Dependência de classes concretas | ✅ Dependência de abstração via interface |
+
+---
+
+### **🚀 Vantagens Técnicas**
+- **📈 Extensibilidade:** Novos tipos de pedidos sem alterar código existente
+- **🧪 Testabilidade:** Calculadores testáveis de forma isolada
+- **🔧 Manutenibilidade:** Lógica centralizada na Factory
+- **📖 Legibilidade:** Cada cálculo encapsulado em sua própria classe
+
+---
+
+
+## 🛠️ **Tecnologias Utilizadas**
+- **Node.js** - Runtime JavaScript
+- **TypeScript** - Superset tipado do JavaScript
+- **NestJS** - Framework modular para APIs
+- **Design Patterns** - Padrões de projeto
+- **SOLID Principles** - Princípios de design orientado a objetos
+
+---
+
+## 📚 **Referências**
+- [Design Patterns: Elements of Reusable Object-Oriented Software](https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612)
+- [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
+- [Factory Pattern - Refactoring Guru](https://refactoring.guru/design-patterns/factory-method)
+- [NestJS Docs](https://docs.nestjs.com/)
+
+---
+
+## 👨‍💻 **Autor**
+**Richard Lirio**  
+- GitHub: [@RichardLirio](https://github.com/RichardLirio)  
+- LinkedIn: [Richard Lirio](https://www.linkedin.com/in/richard-silva-lirio-b97484250/)
+
+Desenvolvido com 💜 durante meus estudos de Design Patterns e Clean Architecture.
+
+---
+
+<div align="center">
+
+**⭐ Se este repositório te ajudou, deixe uma estrela!**
+
+</div>
