@@ -91,6 +91,27 @@ Este exemplo demonstra a aplicação do **Strategy Pattern** em uma API financei
 
 ---
 
+### 🏭 Simple Factory Pattern - Sistema de Cálculo de Pedidos
+
+> Caminho: [`/design-patterns/simple-factory-pattern`](./design-patterns/criacional/simple-factory)
+
+Este exemplo aplica o **Simple Factory Pattern** para melhorar a manutenção e extensibilidade de um sistema de cálculo de pedidos em uma API NestJS.  
+O código legado instanciava calculadoras diretamente no service, utilizando condicionais repetitivas (`if/else`), dificultando a adição de novos tipos de pedido.  
+A refatoração introduz uma **fábrica simples** responsável por fornecer a implementação correta de acordo com o tipo de pedido, permitindo:
+- Remover dependências diretas do service sobre classes concretas.
+- Facilitar a adição de novos cálculos sem modificar código existente.
+- Integrar o padrão com o ciclo de injeção de dependências do NestJS.
+
+Inclui:
+- Contrato (`CalculateOrderTypeInterface`) para padronizar calculadoras.
+- Calculadoras específicas (`BookOrderCalculator`, `ElectronicOrderCalculator`, `FoodOrderCalculator`).
+- Factory (`OrdersFactory`) com integração ao NestJS.
+- Controller e Service ajustados para consumir a factory.
+
+Serve como base para estudo de padrões de criação e para evoluir posteriormente para **Factory Method** ou **Abstract Factory**.
+
+---
+
 ## 🔢 Algoritmos
 
 ### 🎯 Busca Binária (Binary Search)
