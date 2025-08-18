@@ -1,98 +1,135 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📖 Exercício - Adapter Pattern
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 🎨 Design Patterns
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### 🔌 Adapter Pattern - Sistema de Notificações
 
-## Description
+> Caminho: [`/design-patterns/adapter-pattern`](./design-patterns/estrutural/adapter)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 🚨 Problema (Código Legado)
 
-```bash
-$ pnpm install
+O sistema de notificações da aplicação estava **altamente acoplado** a um provedor externo (`LegacyEmailProvider`).  
+
+No código legado, o `NotificationsService` instanciava diretamente a classe concreta, sem nenhuma abstração:
+
+```ts
+@Injectable()
+export class NotificationsService {
+  private emailProvider = new LegacyEmailProvider(); // ❌ acoplamento direto
+
+  sendOrderNotification(customerEmail: string, orderId: string) {
+    const subject = `Order Confirmation #${orderId}`;
+    const body = `Your order ${orderId} has been confirmed. Thank you!`;
+
+    const result = this.emailProvider.sendEmail(customerEmail, subject, body);
+
+    return { email: customerEmail, orderId, sent: result };
+  }
+}
 ```
 
-## Compile and run the project
+### ⚠️ Problemas Identificados
+- **Alto acoplamento** → impossível trocar de provedor sem alterar o `NotificationsService`.  
+- **Dificuldade de testes** → não é possível mockar facilmente o envio de e-mail.  
+- **Violação do DIP (Dependency Inversion Principle)** → o service depende de uma classe concreta em vez de uma abstração.  
 
-```bash
-# development
-$ pnpm run start
+---
 
-# watch mode
-$ pnpm run start:dev
+## ✅ Refatoração com Adapter Pattern
 
-# production mode
-$ pnpm run start:prod
+Para resolver esses problemas, aplicamos o **Adapter Pattern**:
+
+1. Criamos uma **interface** genérica para provedores de notificação:
+
+```ts
+export interface NotificationProvider {
+  send(to: string, subject: string, body: string): boolean;
+}
 ```
 
-## Run tests
+2. Implementamos um **Adapter** que encapsula o `LegacyEmailProvider`:
 
-```bash
-# unit tests
-$ pnpm run test
+```ts
+@Injectable()
+export class LegacyEmailAdapter implements NotificationProvider {
+  constructor(private readonly legacyProvider: LegacyEmailProvider) {}
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+  send(to: string, subject: string, body: string): boolean {
+    return this.legacyProvider.sendEmail(to, subject, body);
+  }
+}
 ```
 
-## Deployment
+3. Alteramos o `NotificationsService` para depender apenas da **abstração**:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```ts
+@Injectable()
+export class NotificationsService {
+  constructor(
+    @Inject('NotificationProvider')
+    private readonly notificationProvider: NotificationProvider,
+  ) {}
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+  sendOrderNotification(customerEmail: string, orderId: string) {
+    const subject = `Order Confirmation #${orderId}`;
+    const body = `Your order ${orderId} has been confirmed. Thank you!`;
 
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+    const result = this.notificationProvider.send(customerEmail, subject, body);
+
+    return {
+      email: customerEmail,
+      orderId,
+      sent: result,
+      provider: 'Adapter Pattern in use',
+    };
+  }
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+4. Ajustamos o **módulo** para registrar o Adapter no container de injeção:
 
-## Resources
+```ts
+@Module({
+  controllers: [NotificationsController],
+  providers: [
+    LegacyEmailProvider,
+    {
+      provide: 'NotificationProvider', // token da abstração
+      useClass: LegacyEmailAdapter,    // implementação concreta
+    },
+    NotificationsService,
+  ],
+})
+export class NotificationsModule {}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 🎯 Benefícios da Refatoração
+- 🔄 **Flexibilidade** → podemos trocar facilmente de provedor (`SendGridAdapter`, `AWSSESAdapter`, etc.).  
+- 🧪 **Testabilidade** → podemos mockar a interface `NotificationProvider` em testes unitários.  
+- 🏗️ **SOLID** → agora seguimos o **Dependency Inversion Principle**.  
+- 🚀 **Extensibilidade** → podemos adicionar novos adaptadores sem alterar o `NotificationsService`.  
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 📌 Exercício Proposto
+1. Crie um novo adapter chamado `SmsAdapter` que implemente a interface `NotificationProvider`.  
+2. Ajuste o `NotificationsModule` para alternar entre `LegacyEmailAdapter` e `SmsAdapter`.  
+3. Teste o envio de notificações chamando a rota:  
 
-## Stay in touch
+```http
+POST http://localhost:3000/notifications/send
+Content-Type: application/json
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+{
+  "email": "customer@example.com",
+  "orderId": "12345"
+}
+```
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+👉 Agora este projeto serve como base prática para treinar a refatoração de sistemas legados usando o **Adapter Pattern** no NestJS.  

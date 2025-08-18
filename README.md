@@ -113,6 +113,29 @@ Serve como base para estudo de padrões de criação e para evoluir posteriormen
 
 ---
 
+### 🔌 Adapter Pattern - Sistema de Notificações
+
+> Caminho: [`/design-patterns/adapter-pattern`](./design-patterns/estrutural/adapter)
+
+Este exemplo demonstra a aplicação do **Adapter Pattern** em um sistema de notificações de pedidos.  
+O código legado estava fortemente acoplado a um provedor de e-mail (`LegacyEmailProvider`), dificultando a troca de provedores ou a realização de testes unitários.  
+
+A refatoração introduz:
+- Uma **interface genérica** (`NotificationProvider`) que abstrai o envio de notificações.
+- Um **adapter** (`LegacyEmailAdapter`) que encapsula a classe legada.
+- Injeção de dependências via módulo do NestJS, permitindo registrar diferentes implementações (`Email`, `SMS`, `Push`, etc.).
+- Um **service** desacoplado, que depende apenas da abstração.
+
+Benefícios:
+- 🔄 Flexibilidade para trocar de provedor sem alterar o service.  
+- 🧪 Facilidade de testes com mocks/fakes.  
+- 🏗️ Aderência ao princípio de inversão de dependência (DIP).  
+- 🚀 Extensibilidade para novos canais de notificação.  
+
+Serve como exercício prático de **padrões estruturais** aplicados a sistemas NestJS.
+
+---
+
 ## 🔢 Algoritmos
 
 ### 🎯 Busca Binária (Binary Search)
