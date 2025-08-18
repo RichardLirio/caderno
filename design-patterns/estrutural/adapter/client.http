@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:3000
+
+
+POST {{baseUrl}}/notifications/send
+Content-Type: application/json
+
+{
+    "email":"example@email.com",
+    "orderId": "Order-id-mock-up"
+}
+
+###
