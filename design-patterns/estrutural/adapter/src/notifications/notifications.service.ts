@@ -1,22 +1,25 @@
 import { Injectable } from "@nestjs/common";
-import { LegacyEmailProvider } from "./legacy/legacy-email.provider";
+import { NotificationProvider } from "./contracts/notification-provider.interface";
 
 @Injectable()
 export class NotificationsService {
-  private emailProvider = new LegacyEmailProvider();
+  constructor(private readonly NotificationProvider: NotificationProvider) {}
 
   sendOrderNotification(customerEmail: string, orderId: string) {
     const subject = `Order Confirmation #${orderId}`;
     const body = `Your order ${orderId} has been confirmed. Thank you!`;
 
-    // Acoplamento direto ao provedor
-    const result = this.emailProvider.sendEmail(customerEmail, subject, body);
+    const result = this.NotificationProvider.generate(
+      customerEmail,
+      subject,
+      body
+    );
 
     return {
       email: customerEmail,
       orderId,
       sent: result,
-      provider: "LegacyEmailProvider (hardcoded)",
+      provider: "Adapter Pattern (decoupled)",
     };
   }
 }
